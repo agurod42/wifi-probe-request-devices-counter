@@ -1,6 +1,9 @@
 #include <string>
 #include <thread>
 
+#include <fstream> // temp
+#include <iostream> // temp
+
 using namespace std;
 
 class WiFiProbeRequestSniffer {
@@ -22,22 +25,29 @@ private:
         config.set_rfmon(true);
 
         Sniffer sniffer(interface, config);
-        sniffer.sniff_loop(make_sniffer_handler(this, &WiFiProbeRequestSniffer::snifferLoopHandler));
-    }
 
-    bool snifferLoopHandler(PDU& pdu) {
-        try {
-            const WiFiProbeRequestFrame* probeRequest = new WiFiProbeRequestFrame(&pdu);
-            
-            if (this->delegate != NULL) {
-                this->delegate->onProbeRequestSniffed(probeRequest);
+        while (1) {
+            try {
+                const PDU* pdu = sniffer.next_packet();
+                snifferLoopHandler(pdu);
+                delete pdu;
+            }
+            catch (exception ex) {
+                // keep moving
+                ofstream exFile;
+                exFile.open("error.log");
+                exFile << ex.what();
+                exFile.close();
             }
         }
-        catch (...) {
-            // keep moving
-        }
+    }
+
+    void snifferLoopHandler(const PDU* pdu) {
+        const WiFiProbeRequestFrame* probeRequest = new WiFiProbeRequestFrame(pdu);
         
-        return true;
+        if (this->delegate != NULL) {
+            this->delegate->onProbeRequestSniffed(probeRequest);
+        }
     }
 
 };

@@ -6,7 +6,7 @@ class WiFiProbeRequestFrame {
 
 public:
 
-    WiFiProbeRequestFrame(PDU* pdu) {
+    WiFiProbeRequestFrame(const PDU* pdu) {
         const Dot11ProbeRequest& probeRequest = pdu->rfind_pdu<Dot11ProbeRequest>();
         
         this->managementFrame = &pdu->rfind_pdu<Dot11ManagementFrame>();
