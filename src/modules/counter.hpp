@@ -3,7 +3,7 @@
 
 #include "network.hpp"
 
-#include "counter/PeopleCounterStrategy.cpp"
+#include "counter/PeopleCounter.cpp"
 #include "counter/WiFiProbeRequestPeopleCounter.cpp"
 
 #endif

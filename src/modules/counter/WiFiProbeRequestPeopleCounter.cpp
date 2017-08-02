@@ -2,7 +2,7 @@
 
 using namespace std;
 
-class WiFiProbeRequestPeopleCounter : public PeopleCounterStrategy, public WiFiProbeRequestSnifferDelegate {
+class WiFiProbeRequestPeopleCounter : public PeopleCounter, public WiFiProbeRequestSnifferDelegate {
 
 public:
 
