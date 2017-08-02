@@ -1,4 +1,7 @@
-#include <ctime>
+#include <chrono>
+using namespace std::chrono;
+
+typedef high_resolution_clock::time_point time_p;
 
 class PeopleCounterStrategy {
 
@@ -17,16 +20,18 @@ protected:
     }
 
     void registerPerson(MacAddress address) {
+        time_p now = high_resolution_clock::now();
+        
         if (!isPersonRegistered(address)) {
-            people.insert(make_pair(address, time(0)));
+            people.insert(make_pair(address, now));
         }
         else {
-            people[address] = time(0);
+            people[address] = now;
         }
     }
 
 private:
 
-    map<MacAddress, time_t> people;
+    map<MacAddress, time_p> people;
 
 };
