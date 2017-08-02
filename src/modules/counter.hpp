@@ -1,7 +1,7 @@
-#ifndef COUNTER_H
-#define COUNTER_H
+#ifndef COUNTER_HPP
+#define COUNTER_HPP
 
-#include "network.h"
+#include "network.hpp"
 
 #include "counter/PeopleCounterStrategy.cpp"
 #include "counter/WiFiProbeRequestPeopleCounter.cpp"
