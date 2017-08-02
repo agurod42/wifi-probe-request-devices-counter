@@ -1,5 +1,5 @@
-#include <iostream>
 #include <string>
+#include <thread>
 
 using namespace std;
 
@@ -10,17 +10,22 @@ public:
     WiFiProbeRequestSnifferDelegate* delegate;
 
     void start(const string& interface) {
+        thread snifferLoopThread(&WiFiProbeRequestSniffer::snifferLoop, this, interface);
+        snifferLoopThread.detach();
+    }
+
+private:
+
+    void snifferLoop(const string& interface) {
         SnifferConfiguration config;
         config.set_promisc_mode(true);
         config.set_rfmon(true);
 
         Sniffer sniffer(interface, config);
-        sniffer.sniff_loop(make_sniffer_handler(this, &WiFiProbeRequestSniffer::snifferHandler));
+        sniffer.sniff_loop(make_sniffer_handler(this, &WiFiProbeRequestSniffer::snifferLoopHandler));
     }
 
-private:
-
-    bool snifferHandler(PDU& pdu) {
+    bool snifferLoopHandler(PDU& pdu) {
         try {
             const WiFiProbeRequestFrame* probeRequest = new WiFiProbeRequestFrame(&pdu);
             

@@ -14,6 +14,7 @@ public:
 
     void start() {
         sniffer->start(snifferInterface);
+        unregisterPersonWhenUnseenFor(1000);
     }
 
     // WiFiProbeRequestSnifferDelegate methods
@@ -27,8 +28,7 @@ public:
         MacAddress address = probeRequest->getMacAddress();
         
         if (!isPersonRegistered(address)) {
-            cout << address << " (" << getPeopleCount() + 1 << ")" << endl;
-            cout << endl;
+            //cout << address << " (" << getPeopleCount() + 1 << ")" << endl;
         }
         
         registerPerson(address);
