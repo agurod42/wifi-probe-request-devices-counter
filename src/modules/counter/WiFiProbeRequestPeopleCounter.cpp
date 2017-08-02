@@ -1,4 +1,3 @@
-#include <ctime>
 #include <string>
 
 using namespace std;
@@ -8,13 +7,13 @@ class WiFiProbeRequestPeopleCounter : public PeopleCounterStrategy, public WiFiP
 public:
 
     WiFiProbeRequestPeopleCounter(const string& interface) {
-        this->sniffer = new WiFiProbeRequestSniffer();
-        this->sniffer->delegate = this;
-        this->snifferInterface = interface;
+        sniffer = new WiFiProbeRequestSniffer();
+        sniffer->delegate = this;
+        snifferInterface = interface;
     }
 
     void start() {
-        this->sniffer->start(this->snifferInterface);
+        sniffer->start(snifferInterface);
     }
 
     // WiFiProbeRequestSnifferDelegate methods
