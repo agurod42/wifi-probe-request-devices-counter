@@ -1,8 +1,10 @@
 #include <string>
 
+#include <iostream> // temp
+
 using namespace std;
 
-class WiFiProbeRequestPeopleCounter : public PeopleCounter, public WiFiProbeRequestSnifferDelegate {
+class WiFiProbeRequestPeopleCounter : public PeopleCounter<MacAddress>, public WiFiProbeRequestSnifferDelegate {
 
 public:
 
@@ -14,29 +16,26 @@ public:
 
     void start() {
         sniffer->start(snifferInterface);
-        unregisterPersonWhenUnseenFor(1000);
     }
 
     // WiFiProbeRequestSnifferDelegate methods
 
     void onProbeRequestSniffed(const WiFiProbeRequestFrame* probeRequest) {
-        //cout << "probeRequest" << endl;
-        //cout << probeRequest->getSSID() << endl;
-        //cout << probeRequest->getMacAddress() << endl;
-        //cout << endl;
-
         MacAddress address = probeRequest->getMacAddress();
-        
-        if (!isPersonRegistered(address)) {
-            //cout << address << " (" << getPeopleCount() + 1 << ")" << endl;
-        }
-        
-        registerPerson(address);
+
+        registerPerson(new Person<MacAddress>(address));
+
+        log->clear();
+        forEachPerson([this](Person<MacAddress>* person) {
+            log->writeLine(person);
+        });
     }
 
 private:
 
     WiFiProbeRequestSniffer* sniffer;
     string snifferInterface;
+
+    Log* log = new ConsoleLog();
 
 };

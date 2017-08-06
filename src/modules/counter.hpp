@@ -2,6 +2,7 @@
 #define COUNTER_HPP
 
 #include "log.hpp"
+#include "model.hpp"
 #include "network.hpp"
 
 #include "counter/PeopleCounter.cpp"
