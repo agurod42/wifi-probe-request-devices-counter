@@ -1,4 +1,4 @@
-# people-wifi-counter
+# wifi-probe-request-devices-counter
 
 ## Build
 
@@ -6,7 +6,7 @@
 
 1. Install dependencies
 
-    `apt-get install cmake g++ gdb git libpcap-dev libssl-dev`
+        apt-get install cmake g++ gdb git libpcap-dev libssl-dev`
 
 2. Compile libtins
 
@@ -26,4 +26,5 @@
         
 3. Build
 
-    `cmake --build /build --target all`
+        cmake --build /build --target all
+        
